@@ -27,7 +27,6 @@ export class CreateCustomerDto {
   readonly createdAt: string
 
   @IsNumber()
-  @MaxLength(40)
   @IsNotEmpty()
   readonly revenue: number
 
