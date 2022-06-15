@@ -1,39 +1,41 @@
 import {
-  NotFoundException,
-} from '@nestjs/common';
-import { Test, TestingModule } from '@nestjs/testing';
-import { CustomersController } from './customers.controller';
-import { CustomersService } from './customers.service';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
-import { CreateCustomerDto } from './dto';
-import { UpdateCustomerDto } from './dto';
+  NotFoundException
+} from '@nestjs/common'
+import { Test, TestingModule } from '@nestjs/testing'
+import { CustomersController } from './customers.controller'
+import { CustomersService } from './customers.service'
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto'
+import { CreateCustomerDto, UpdateCustomerDto } from './dto'
 
 class MockResponse {
-  res: any;
-  constructor() {
-    this.res = {};
+  res: any
+  constructor () {
+    this.res = {}
   }
+
   status = jest
     .fn()
     .mockReturnThis()
     .mockImplementationOnce((code) => {
-      this.res.code = code;
-      return this;
-    });
+      this.res.code = code
+      return this
+    })
+
   send = jest
     .fn()
     .mockReturnThis()
     .mockImplementationOnce((message) => {
-      this.res.message = message;
-      return this;
-    });
+      this.res.message = message
+      return this
+    })
+
   json = jest
     .fn()
     .mockReturnThis()
     .mockImplementationOnce((json) => {
-      this.res.json = json;
-      return this;
-    });
+      this.res.json = json
+      return this
+    })
 }
 
 const mockCustomer: any = {
@@ -43,8 +45,8 @@ const mockCustomer: any = {
   address: 'address#1',
   createdAt: '15/06/2022',
   revenue: 1_000_000,
-  bankAccounts: 'bank account #1',
-};
+  bankAccounts: 'bank account #1'
+}
 
 const createCustomerDto: CreateCustomerDto = {
   corporateName: 'corporateName#1',
@@ -52,8 +54,8 @@ const createCustomerDto: CreateCustomerDto = {
   address: 'address#1',
   createdAt: '15/06/2022',
   revenue: 1_000_000,
-  bankAccounts: 'bank account #1',
-};
+  bankAccounts: 'bank account #1'
+}
 
 const updateCustomerDto: UpdateCustomerDto = {
   corporateName: 'corporateName update',
@@ -61,18 +63,18 @@ const updateCustomerDto: UpdateCustomerDto = {
   address: 'address update',
   createdAt: '15/06/2022',
   revenue: 1_000_000,
-  bankAccounts: 'bank account update',
-};
+  bankAccounts: 'bank account update'
+}
 
 describe('Customers Controller', () => {
-  let customersController: CustomersController;
-  let customersService: CustomersService;
+  let customersController: CustomersController
+  let customersService: CustomersService
   const paginationQueryDto: PaginationQueryDto = {
     limit: 10,
-    offset: 1,
-  };
+    offset: 1
+  }
 
-  const response = new MockResponse();
+  const response = new MockResponse()
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -85,106 +87,106 @@ describe('Customers Controller', () => {
             findAll: jest.fn(() => []),
             findOne: jest.fn(() => {}),
             update: jest.fn(() => {}),
-            remove: jest.fn(() => {}),
-          },
-        },
-      ],
-    }).compile();
+            remove: jest.fn(() => {})
+          }
+        }
+      ]
+    }).compile()
 
-    customersController = module.get<CustomersController>(CustomersController);
-    customersService = module.get<CustomersService>(CustomersService);
-  });
+    customersController = module.get<CustomersController>(CustomersController)
+    customersService = module.get<CustomersService>(CustomersService)
+  })
 
   it('should be defined', () => {
-    expect(customersController).toBeDefined();
-  });
+    expect(customersController).toBeDefined()
+  })
 
   describe('getAllCustomer()', () => {
     it('should call method findAll in CustomersService', async () => {
-      await customersController.getAllCustomer(response, paginationQueryDto);
-      expect(customersService.findAll).toHaveBeenCalled();
-    });
+      await customersController.getAllCustomer(response, paginationQueryDto)
+      expect(customersService.findAll).toHaveBeenCalled()
+    })
 
     it('should throw if CustomersService findAll throws', async () => {
       jest
         .spyOn(customersService, 'findAll')
-        .mockRejectedValueOnce(new NotFoundException());
+        .mockRejectedValueOnce(new NotFoundException())
       await expect(
-        customersController.getAllCustomer(response, paginationQueryDto),
-      ).rejects.toThrow(new NotFoundException());
-    });
+        customersController.getAllCustomer(response, paginationQueryDto)
+      ).rejects.toThrow(new NotFoundException())
+    })
 
     it('should return customer on success', async () => {
-      await customersController.getAllCustomer(response, paginationQueryDto);
-      expect(customersService.findAll).toHaveBeenCalled();
-    });
-  });
+      await customersController.getAllCustomer(response, paginationQueryDto)
+      expect(customersService.findAll).toHaveBeenCalled()
+    })
+  })
 
   describe('getCustomer()', () => {
     it('should call method findOne in CustomersService with correct value', async () => {
-      const findSpy = jest.spyOn(customersService, 'findOne');
-      await customersController.getCustomer(response, 'anyid');
-      expect(findSpy).toHaveBeenCalledWith('anyid');
-    });
+      const findSpy = jest.spyOn(customersService, 'findOne')
+      await customersController.getCustomer(response, 'anyid')
+      expect(findSpy).toHaveBeenCalledWith('anyid')
+    })
 
     it('should throw if CustomersService findOne throws', async () => {
       jest
         .spyOn(customersService, 'findOne')
-        .mockRejectedValueOnce(new NotFoundException());
+        .mockRejectedValueOnce(new NotFoundException())
       await expect(
-        customersController.getCustomer(response, 'anyid'),
-      ).rejects.toThrow(new NotFoundException());
-    });
+        customersController.getCustomer(response, 'anyid')
+      ).rejects.toThrow(new NotFoundException())
+    })
 
     it('should return a customer on success', async () => {
       jest
         .spyOn(customersService, 'findOne')
-        .mockResolvedValueOnce(mockCustomer);
-      await customersController.getCustomer(response, 'anyid');
-      expect(customersService.findOne).toHaveBeenCalled();
-    });
-  });
+        .mockResolvedValueOnce(mockCustomer)
+      await customersController.getCustomer(response, 'anyid')
+      expect(customersService.findOne).toHaveBeenCalled()
+    })
+  })
 
   describe('addCustomer()', () => {
     it('should call method create in CustomersService with correct values', async () => {
-      const createSpy = jest.spyOn(customersService, 'create');
-      await customersController.addCustomer(response, createCustomerDto);
-      expect(createSpy).toHaveBeenCalledWith(createCustomerDto);
-    });
+      const createSpy = jest.spyOn(customersService, 'create')
+      await customersController.addCustomer(response, createCustomerDto)
+      expect(createSpy).toHaveBeenCalledWith(createCustomerDto)
+    })
 
     it('should return a customer on success', async () => {
-      const createCustomerSpy = jest.spyOn(customersService, 'create');
-      await customersController.addCustomer(response, createCustomerDto);
-      expect(createCustomerSpy).toHaveBeenCalledWith(createCustomerDto);
-    });
-  });
+      const createCustomerSpy = jest.spyOn(customersService, 'create')
+      await customersController.addCustomer(response, createCustomerDto)
+      expect(createCustomerSpy).toHaveBeenCalledWith(createCustomerDto)
+    })
+  })
 
   describe('updateCustomer()', () => {
     it('should call method update in CustomersService with correct values', async () => {
-      const updateSpy = jest.spyOn(customersService, 'update');
+      const updateSpy = jest.spyOn(customersService, 'update')
       await customersController.updateCustomer(
         response,
         'anyid',
-        updateCustomerDto,
-      );
-      expect(updateSpy).toHaveBeenCalledWith('anyid', updateCustomerDto);
-    });
-  });
+        updateCustomerDto
+      )
+      expect(updateSpy).toHaveBeenCalledWith('anyid', updateCustomerDto)
+    })
+  })
 
   describe('deleteCustomer()', () => {
     it('should call methoed remove in CustomersService with correct value', async () => {
-      const deleteSpy = jest.spyOn(customersService, 'remove');
-      await customersController.deleteCustomer(response, 'anyid');
-      expect(deleteSpy).toHaveBeenCalledWith('anyid');
-    });
+      const deleteSpy = jest.spyOn(customersService, 'remove')
+      await customersController.deleteCustomer(response, 'anyid')
+      expect(deleteSpy).toHaveBeenCalledWith('anyid')
+    })
 
     it('should throw error if id in CustomersService not exists', async () => {
       jest
         .spyOn(customersService, 'remove')
-        .mockRejectedValueOnce(new NotFoundException());
+        .mockRejectedValueOnce(new NotFoundException())
       await expect(
-        customersController.deleteCustomer(response, 'anyid'),
-      ).rejects.toThrow(new NotFoundException());
-    });
-  });
-});
+        customersController.deleteCustomer(response, 'anyid')
+      ).rejects.toThrow(new NotFoundException())
+    })
+  })
+})

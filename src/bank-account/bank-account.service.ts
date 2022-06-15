@@ -1,72 +1,72 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import { IBankAccount } from './interfaces/bank-account.interface';
-import { CreateBankAccountDto, UpdateBankAccountDto } from './dto';
-import { BankAccount } from './schemas/bank-account.schema';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { Model } from 'mongoose'
+import { InjectModel } from '@nestjs/mongoose'
+import { IBankAccount } from './interfaces/bank-account.interface'
+import { CreateBankAccountDto, UpdateBankAccountDto } from './dto'
+import { BankAccount } from './schemas/bank-account.schema'
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto'
 
 @Injectable()
 export class BankAccountService {
-  constructor(
+  constructor (
     @InjectModel(BankAccount.name)
-    private readonly bankAccountModel: Model<BankAccount>,
+    private readonly bankAccountModel: Model<BankAccount>
   ) {}
 
-  public async findAll(
-    paginationQuery: PaginationQueryDto,
+  public async findAll (
+    paginationQuery: PaginationQueryDto
   ): Promise<BankAccount[]> {
-    const { limit, offset } = paginationQuery;
+    const { limit, offset } = paginationQuery
     return await this.bankAccountModel
       .find()
       .skip(offset)
       .limit(limit)
       .populate('customer')
-      .exec();
+      .exec()
   }
 
-  public async findOne(bankAccountId: string): Promise<BankAccount> {
+  public async findOne (bankAccountId: string): Promise<BankAccount> {
     const bankAccount = await this.bankAccountModel
       .findById({ _id: bankAccountId })
       .populate('customer')
-      .exec();
+      .exec()
 
     if (!bankAccount) {
-      throw new NotFoundException(`Bank Account #${bankAccountId} not found`);
+      throw new NotFoundException(`Bank Account #${bankAccountId} not found`)
     }
 
-    return bankAccount;
+    return bankAccount
   }
 
-  public async create(
-    createBankAccountDto: CreateBankAccountDto,
+  public async create (
+    createBankAccountDto: CreateBankAccountDto
   ): Promise<IBankAccount> {
     const bankAccount = await this.bankAccountModel.create(
-      createBankAccountDto,
-    );
-    return bankAccount;
+      createBankAccountDto
+    )
+    return bankAccount
   }
 
-  public async update(
+  public async update (
     banAccountId: string,
-    updateBankAccountDto: UpdateBankAccountDto,
+    updateBankAccountDto: UpdateBankAccountDto
   ): Promise<IBankAccount> {
     const existingBankAccount = await this.bankAccountModel.findByIdAndUpdate(
       { _id: banAccountId },
       updateBankAccountDto,
-      { new: true },
-    );
+      { new: true }
+    )
 
     if (!existingBankAccount) {
-      throw new NotFoundException(`Bank Account #${banAccountId} not found`);
+      throw new NotFoundException(`Bank Account #${banAccountId} not found`)
     }
-    return existingBankAccount;
+    return existingBankAccount
   }
 
-  public async remove(bankAccountId: string): Promise<any> {
+  public async remove (bankAccountId: string): Promise<any> {
     const bankAccount = await this.bankAccountModel.findByIdAndRemove(
-      bankAccountId,
-    );
-    return bankAccount;
+      bankAccountId
+    )
+    return bankAccount
   }
 }

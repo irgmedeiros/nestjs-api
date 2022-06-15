@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
   mongodb:
@@ -6,4 +6,4 @@ services:
     environment:
       - MONGODB_DATABASE="nest"
     ports:
-      - 27017:27017
+      - "27017:27017"

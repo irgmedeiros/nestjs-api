@@ -1,19 +1,19 @@
-import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose'
+import { Document, Types } from 'mongoose'
 
 @Schema()
 export class BankAccount extends Document {
   @Prop({ unique: true })
-  bankName: string;
+    bankName: string
 
   @Prop()
-  agency: string;
+    agency: string
 
   @Prop()
-  account: string;
+    account: string
 
   @Prop({ type: [Types.ObjectId], ref: 'Customer' })
-  customers: string;
+    customers: string
 }
 
-export const BankAccountSchema = SchemaFactory.createForClass(BankAccount);
+export const BankAccountSchema = SchemaFactory.createForClass(BankAccount)

@@ -47,7 +47,7 @@ http://127.0.0.1:3000/api/doc
 ```bash
     $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/customers  
     $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/customers/:id 
-    $ curl -H 'content-type: application/json' -v -X POST -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": 1000000, "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers 
+    $ curl -H 'content-type: application/json' -v -X POST -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": "1000000", "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers 
     $ curl -H 'content-type: application/json' -v -X PUT -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": 1000000, "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers/:id 
     $ curl -H 'content-type: application/json' -v -X DELETE http://127.0.0.1:3000/api/customers/:id 
 ```

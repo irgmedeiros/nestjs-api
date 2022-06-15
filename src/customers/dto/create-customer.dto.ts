@@ -3,35 +3,35 @@ import {
   IsNotEmpty,
   IsString,
   IsOptional,
-  IsNumber,
-} from 'class-validator';
+  IsNumber
+} from 'class-validator'
 
 export class CreateCustomerDto {
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly corporateName: string;
+  readonly corporateName: string
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly phone: string;
+  readonly phone: string
 
   @IsString()
   @IsNotEmpty()
-  readonly address: string;
+  readonly address: string
 
   @IsString()
   @MaxLength(30)
   @IsNotEmpty()
-  readonly createdAt: string;
+  readonly createdAt: string
 
   @IsNumber()
   @MaxLength(40)
   @IsNotEmpty()
-  readonly revenue: number;
+  readonly revenue: number
 
   @IsString()
   @IsOptional()
-  readonly bankAccounts: string;
+  readonly bankAccounts: string
 }

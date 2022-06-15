@@ -1,15 +1,15 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { CustomersModule } from './customers/customers.module';
-import { BankAccountModule } from './bank-account/bank-account.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { MongooseModule } from '@nestjs/mongoose'
+import { CustomersModule } from './customers/customers.module'
+import { BankAccountModule } from './bank-account/bank-account.module'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
+      isGlobal: true
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -17,14 +17,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         uri: configService.get<string>('MONGODB_URL'),
         useNewUrlParser: true,
         useFindAndModify: false,
-        useCreateIndex: true,
+        useCreateIndex: true
       }),
-      inject: [ConfigService],
+      inject: [ConfigService]
     }),
     CustomersModule,
-    BankAccountModule,
+    BankAccountModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

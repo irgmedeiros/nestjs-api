@@ -9,105 +9,105 @@ import {
   NotFoundException,
   Delete,
   Param,
-  Query,
-} from '@nestjs/common';
-import { BankAccountService } from './bank-account.service';
-import { CreateBankAccountDto, UpdateBankAccountDto } from './dto';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
-import { ApiTags } from '@nestjs/swagger';
+  Query
+} from '@nestjs/common'
+import { BankAccountService } from './bank-account.service'
+import { CreateBankAccountDto, UpdateBankAccountDto } from './dto'
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto'
+import { ApiTags } from '@nestjs/swagger'
 
 @ApiTags('Bank Accounts')
 @Controller('bank-accounts')
 export class BankAccountController {
-  constructor(private readonly bankAccountService: BankAccountService) {}
+  constructor (private readonly bankAccountService: BankAccountService) {}
 
   @Get()
-  public async getAllBankAccounts(
+  public async getAllBankAccounts (
     @Res() res,
-    @Query() paginationQuery: PaginationQueryDto,
+    @Query() paginationQuery: PaginationQueryDto
   ) {
     const bankAccounts = await this.bankAccountService.findAll(
-      paginationQuery,
-    );
-    return res.status(HttpStatus.OK).json(bankAccounts);
+      paginationQuery
+    )
+    return res.status(HttpStatus.OK).json(bankAccounts)
   }
 
   @Get('/:id')
-  public async getBankAccount(
+  public async getBankAccount (
     @Res() res,
-    @Param('id') bankAccountId: string,
+    @Param('id') bankAccountId: string
   ) {
     if (!bankAccountId) {
-      throw new NotFoundException('bank account does not exist!');
+      throw new NotFoundException('bank account does not exist!')
     }
 
     const bankAccount = await this.bankAccountService.findOne(
-      bankAccountId,
-    );
-    return res.status(HttpStatus.OK).json(bankAccount);
+      bankAccountId
+    )
+    return res.status(HttpStatus.OK).json(bankAccount)
   }
 
   @Post()
-  public async addBankAccount(
+  public async addBankAccount (
     @Res() res,
-    @Body() createBankAccountDto: CreateBankAccountDto,
+    @Body() createBankAccountDto: CreateBankAccountDto
   ) {
     try {
       const bankAccount = await this.bankAccountService.create(
-        createBankAccountDto,
-      );
+        createBankAccountDto
+      )
       return res.status(HttpStatus.OK).json({
         message: 'bank account has been created successfully',
-        bankAccount,
-      });
+        bankAccount
+      })
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         message: 'Error: Bank Account not created!',
-        status: 400,
-      });
+        status: 400
+      })
     }
   }
 
   @Put('/:id')
-  public async updateBankAccount(
+  public async updateBankAccount (
     @Res() res,
     @Param('id') bankAccountId: string,
-    @Body() updateBankAccountDto: UpdateBankAccountDto,
+    @Body() updateBankAccountDto: UpdateBankAccountDto
   ) {
     try {
       const bankAccount = await this.bankAccountService.update(
         bankAccountId,
-        updateBankAccountDto,
-      );
+        updateBankAccountDto
+      )
       if (!bankAccount) {
-        throw new NotFoundException('bank account does not exist!');
+        throw new NotFoundException('bank account does not exist!')
       }
       return res.status(HttpStatus.OK).json({
         message: 'bank account has been successfully updated',
-        bankAccount,
-      });
+        bankAccount
+      })
     } catch (err) {
       return res.status(HttpStatus.BAD_REQUEST).json({
         message: 'Error: Bank Account not updated!',
-        status: 400,
-      });
+        status: 400
+      })
     }
   }
 
   @Delete('/:id')
-  public async deleteBankAccount(
+  public async deleteBankAccount (
     @Res() res,
-    @Param('id') bankAccountId: string,
+    @Param('id') bankAccountId: string
   ) {
     if (!bankAccountId) {
-      throw new NotFoundException('bank account ID does not exist');
+      throw new NotFoundException('bank account ID does not exist')
     }
 
-    const bankAccount = await this.bankAccountService.remove(bankAccountId);
+    const bankAccount = await this.bankAccountService.remove(bankAccountId)
 
     return res.status(HttpStatus.OK).json({
       message: 'bank account has been deleted',
-      bankAccount,
-    });
+      bankAccount
+    })
   }
 }
