@@ -1,6 +1,6 @@
-# nestjs-api-mongoose
+# nestjs-api
 
-Simple example Api Rest with Nestjs 8.x and Mongoose for the NestJS community 😻.
+Simple Api Rest with Nestjs and Mongo
 
 ## Installation
 
@@ -47,7 +47,7 @@ http://127.0.0.1:3000/api/doc
 ```bash
     $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/customers  
     $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/customers/:id 
-    $ curl -H 'content-type: application/json' -v -X POST -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": "1000000", "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers 
+    $ curl -H 'content-type: application/json' -v -X POST -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": 1000000, "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers 
     $ curl -H 'content-type: application/json' -v -X PUT -d '{"corporateName": "corporateName #1", "phone": "1234567890", "address": "street 1", "createdAt": "15/06/2022", "revenue": 1000000, "bankAccounts": "BankAccountId"}' http://127.0.0.1:3000/api/customers/:id 
     $ curl -H 'content-type: application/json' -v -X DELETE http://127.0.0.1:3000/api/customers/:id 
 ```
@@ -55,11 +55,11 @@ http://127.0.0.1:3000/api/doc
 ## Getting with Curl Bank Accounts
 
 ```bash
-    $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/bankAccounts  
-    $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/bankAccounts/:id 
-    $ curl -H 'content-type: application/json' -v -X POST -d '{"bankName":"Foo bar", "agency": "123", "account": "444555-6"}' http://127.0.0.1:3000/api/bankAccounts 
-    $ curl -H 'content-type: application/json' -v -X PUT -d '{"bankName":"Foo bar", "agency": "123", "account": "444555-6"}' http://127.0.0.1:3000/api/bankAccounts/:id 
-    $ curl -H 'content-type: application/json' -v -X DELETE http://127.0.0.1:3000/api/bankAccounts/:id
+    $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/bank-accounts  
+    $ curl -H 'content-type: application/json' -v -X GET http://127.0.0.1:3000/api/bank-accounts/:id 
+    $ curl -H 'content-type: application/json' -v -X POST -d '{"bankName":"Foo bar", "agency": "123", "account": "444555-6"}' http://127.0.0.1:3000/api/bank-accounts 
+    $ curl -H 'content-type: application/json' -v -X PUT -d '{"bankName":"Foo bar", "agency": "123", "account": "444555-6"}' http://127.0.0.1:3000/api/bank-accounts/:id 
+    $ curl -H 'content-type: application/json' -v -X DELETE http://127.0.0.1:3000/api/bank-accounts/:id
 ```
 
 ## Getting Pagination using limit and offset
